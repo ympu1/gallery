@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="/style.css">
+	<title>{{ .parentDir }}</title>
+</head>
+<body>
+	<div class="files_grid">
+		{{ range .files }}
+			<a class="{{ .Type }}" href="{{ .Path }}" style="background-image: url(/thumb?type={{ .Type }}&file={{ .Path }});"><span>{{ .Name }}</span></a>
+		{{ end }}
+	</div>
+
+	<div class="popup" id="popup"></div>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<script src="/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,5 @@
+RootPath: "/path/to/your/folder/"
+Port: :8080
+ImageExt: ['jpg', 'png', 'bmp', 'jpeg', 'svg']
+VideoExt: ['webm', 'mp4']
+ThumbSize: 400

@@ -1,0 +1,151 @@
+*
+{
+	margin: 0;
+	padding: 0;
+}
+
+.files_grid
+{
+	display: grid;
+	grid-template-columns: repeat(10, 1fr);
+	gap: 10px;
+	padding: 10px;
+	overflow-x: hidden;
+}
+
+	.files_grid a
+	{
+		padding-bottom: 100%;
+		background-color: #ddd;
+		color: white;
+		position: relative;
+		background-size: cover;
+		background-position: center;
+		box-shadow: 0 0 7px rgba(0, 0, 0, 0.6);
+	}
+
+		.files_grid a.other
+		{
+			background-image: url(/other.svg) !important;
+			background-size: 80%;
+			background-repeat: no-repeat;
+			/*background-repeat: no-repeat;*/
+			/*background-size: contain;*/
+			/*background-color: transparent;*/
+		}
+
+		.files_grid a.video
+		{
+			background-image: url(/video.svg) !important;
+			background-size: 60%;
+			background-repeat: no-repeat;
+		}
+
+		.files_grid a span
+		{
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			right: 0;
+			text-align: center;
+			padding: 5px;
+			background-color: rgba(0, 0, 0, 0.5);
+			z-index: 2;
+			overflow: hidden;
+			/*display: none;*/
+		}
+
+		.files_grid a video,
+		.popup video
+		{
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			left: 0;
+			right: 0;
+			top: 0;
+			bottom: 0;
+			z-index: 1;
+		}
+
+.popup
+{
+	display: none;
+	position: fixed;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	background-color: black;
+	background-size: contain;
+	background-position: center;
+	background-repeat: no-repeat;
+	z-index: 3;
+}
+
+body.popup_is_showed
+{
+	overflow: hidden;
+}
+
+@media (max-width: 1400px)
+{
+	.files_grid
+	{
+		grid-template-columns: repeat(8, 1fr);
+	}
+}
+
+@media (max-width: 1200px)
+{
+	.files_grid
+	{
+		grid-template-columns: repeat(7, 1fr);
+	}
+}
+
+@media (max-width: 1000px)
+{
+	.files_grid
+	{
+		grid-template-columns: repeat(6, 1fr);
+	}
+
+	.files_grid a span
+	{
+		font-size: 14px;
+	}
+}
+
+
+@media (max-width: 800px)
+{
+	.files_grid
+	{
+		grid-template-columns: repeat(5, 1fr);
+	}
+}
+
+@media (max-width: 700px)
+{
+	.files_grid
+	{
+		grid-template-columns: repeat(4, 1fr);
+	}
+}
+
+@media (max-width: 600px)
+{
+	.files_grid
+	{
+		grid-template-columns: repeat(3, 1fr);
+	}
+}
+
+@media (max-width: 500px)
+{
+	.files_grid
+	{
+		grid-template-columns: repeat(2, 1fr);
+	}
+}
