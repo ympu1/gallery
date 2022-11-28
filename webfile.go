@@ -20,17 +20,17 @@ type webFile struct {
 func (file *webFile) fillFields(osFile os.DirEntry, path string, config config) {
 	file.Name = osFile.Name()
 	file.Type = getFileType(osFile, config)
-	file.Path = strings.ReplaceAll(path +  "/" + file.Name, config.RootPath, "")
+	file.Path = strings.ReplaceAll(path+"/"+file.Name, config.RootPath, "")
 }
 
 func (file *webFile) getThumb(config config) []byte {
 	switch file.Type {
-		case "image":
-			return file.getImageThumb(config)
-		case "folder":
-			return file.getFolderThumb(config)
-		default:
-			return nil
+	case "image":
+		return file.getImageThumb(config)
+	case "folder":
+		return file.getFolderThumb(config)
+	default:
+		return nil
 	}
 }
 
@@ -41,11 +41,11 @@ func (file *webFile) getImageThumb(config config) []byte {
 		return nil
 	}
 
-	srcWidth  := src.Bounds().Dx()
+	srcWidth := src.Bounds().Dx()
 	srcHeight := src.Bounds().Dy()
 
-	thumbWidthRatio  := srcWidth /  config.ThumbSize
-	thumbHeightRatio := srcHeight /  config.ThumbSize
+	thumbWidthRatio := srcWidth / config.ThumbSize
+	thumbHeightRatio := srcHeight / config.ThumbSize
 
 	thumbWidth := config.ThumbSize
 	thumbHeight := config.ThumbSize
@@ -56,7 +56,7 @@ func (file *webFile) getImageThumb(config config) []byte {
 		thumbHeight = 0
 	}
 
-	thumb := imgconv.Resize(src, imgconv.ResizeOption{Width: thumbWidth, Height: thumbHeight})
+	thumb := imgconv.Resize(src, &imgconv.ResizeOption{Width: thumbWidth, Height: thumbHeight})
 
 	thumbPositionX := (thumb.Bounds().Dx() - config.ThumbSize) / 2 * -1
 	thumbPositionY := (thumb.Bounds().Dy() - config.ThumbSize) / 2 * -1
@@ -72,7 +72,7 @@ func (file *webFile) getImageThumb(config config) []byte {
 
 func (file *webFile) getFolderThumb(config config) []byte {
 	folderBG, _ := gg.LoadImage("static/folder.png")
-	folderBG = imgconv.Resize(folderBG, imgconv.ResizeOption{Width: config.ThumbSize})
+	folderBG = imgconv.Resize(folderBG, &imgconv.ResizeOption{Width: config.ThumbSize})
 
 	outputImage := gg.NewContext(config.ThumbSize, config.ThumbSize)
 	outputImage.DrawImage(folderBG, 0, 0)
@@ -82,7 +82,7 @@ func (file *webFile) getFolderThumb(config config) []byte {
 	subFilesThumbPadding := 10
 	subFileThumbSize := (config.ThumbSize - subFilesThumbPadding*3) / 2
 
-	x, y := subFilesThumbPadding , subFilesThumbPadding
+	x, y := subFilesThumbPadding, subFilesThumbPadding
 	drawSubfileThumbToOutput(subFilesThumbs[0], x, y, subFileThumbSize, subFileThumbSize, outputImage)
 
 	x = subFilesThumbPadding*2 + subFileThumbSize
@@ -94,7 +94,7 @@ func (file *webFile) getFolderThumb(config config) []byte {
 
 	x = subFilesThumbPadding*2 + subFileThumbSize
 	drawSubfileThumbToOutput(subFilesThumbs[3], x, y, subFileThumbSize, subFileThumbSize, outputImage)
-	
+
 	var buf bytes.Buffer
 	outputImage.EncodeJPG(&buf, nil)
 
@@ -104,7 +104,7 @@ func (file *webFile) getFolderThumb(config config) []byte {
 func drawSubfileThumbToOutput(subfileThumb []byte, x int, y int, width int, height int, outputImage *gg.Context) {
 	if subfileThumb != nil {
 		img, _, _ := image.Decode(bytes.NewReader(subfileThumb))
-		img = imgconv.Resize(img, imgconv.ResizeOption{Width: width, Height: height})
+		img = imgconv.Resize(img, &imgconv.ResizeOption{Width: width, Height: height})
 		outputImage.DrawImage(img, x, y)
 	}
 }
@@ -123,7 +123,7 @@ func (file *webFile) getSubfilesThubms(config config) [4][]byte {
 			i++
 		}
 
-		if i>3 {
+		if i > 3 {
 			break
 		}
 	}
@@ -149,13 +149,13 @@ func getFileType(file os.DirEntry, config config) string {
 			return "video"
 		}
 	}
-	
+
 	return "other"
 }
 
 func getExtensionFromFileName(fileName string) string {
 	ext := filepath.Ext(fileName)
-	if len(ext)>0 {
+	if len(ext) > 0 {
 		return strings.ToLower(ext)[1:]
 	} else {
 		return ""
